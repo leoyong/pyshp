@@ -484,7 +484,8 @@ class ShapefileException(Exception):
 class Reader(object):
     """Reads the three files of a shapefile as a unit or
     separately.  If one of the three files (.shp, .shx,
-    .dbf) is missing no exception is thrown until you try
+    .
+    ) is missing no exception is thrown until you try
     to call a method that depends on that particular file.
     The .shx index file is used if available for efficiency
     but is not required to read the geometry from the .shp
@@ -1558,6 +1559,8 @@ class Writer(object):
                 raise ShapefileException(
                     "Shapefile Writer unable to pack incorrect sized value"
                     " (size %d) into field '%s' (size %d)." % (len(value), fieldName, size))
+            value = b(value)
+            value = value[:size].ljust(size)
             f.write(value)
 
     def balance(self):
